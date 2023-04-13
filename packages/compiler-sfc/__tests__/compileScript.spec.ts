@@ -1541,6 +1541,36 @@ const emit = defineEmits(['a', 'b'])
       expect(content).toMatch(`qux: { default: 'hi' }`)
     })
 
+    test('withDefaults (static) w/ production mode runtime props when CE', () => {
+      const { content } = compile(
+        `
+      <script setup lang="ts">
+      const props = withDefaults(defineProps<{
+        foo: () => void
+        bar: number
+        baz: boolean | (() => void)
+        qux: string | number
+      }>(), {
+        baz: true,
+        qux: 'hi'
+      })
+      </script>
+      `,
+        { isProd: true },
+        { filename: 'importCe.ce.vue' }
+      )
+      assertCode(content)
+      expect(content).toMatch(`const props = __props`)
+
+      // foo has no default value, the Function can be dropped
+      expect(content).toMatch(`foo: {}`)
+      expect(content).toMatch(`bar: { type: Number }`)
+      expect(content).toMatch(
+        `baz: { type: [Boolean, Function], default: true }`
+      )
+      expect(content).toMatch(`qux: { type: [String, Number], default: 'hi' }`)
+    })
+
     test('withDefaults (dynamic)', () => {
       const { content } = compile(`
       <script setup lang="ts">

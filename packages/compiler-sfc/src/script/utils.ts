@@ -50,3 +50,7 @@ export function isCallOf(
 export function toRuntimeTypeString(types: string[]) {
   return types.length > 1 ? `[${types.join(', ')}]` : types[0]
 }
+
+export function isCustomElementFilename(filename: string): boolean {
+  return filename.endsWith('.ce.vue')
+}

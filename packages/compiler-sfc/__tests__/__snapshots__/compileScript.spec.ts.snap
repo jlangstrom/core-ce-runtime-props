@@ -2214,6 +2214,30 @@ return { props }
 })"
 `;
 
+exports[`SFC compile <script setup> > with TypeScript > withDefaults (static) w/ production mode runtime props when CE 1`] = `
+"import { defineComponent as _defineComponent } from 'vue'
+
+export default /*#__PURE__*/_defineComponent({
+  __name: 'importCe.ce',
+  props: {
+    foo: {},
+    bar: { type: Number },
+    baz: { type: [Boolean, Function], default: true },
+    qux: { type: [String, Number], default: 'hi' }
+  },
+  setup(__props: any, { expose: __expose }) {
+  __expose();
+
+const props = __props;
+
+      
+      
+return { props }
+}
+
+})"
+`;
+
 exports[`SFC compile <script setup> > with TypeScript > withDefaults w/ dynamic object method 1`] = `
 "import { mergeDefaults as _mergeDefaults, defineComponent as _defineComponent } from 'vue'
 

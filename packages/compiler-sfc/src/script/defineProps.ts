@@ -19,7 +19,8 @@ import {
   isLiteralNode,
   isCallOf,
   unwrapTSNode,
-  toRuntimeTypeString
+  toRuntimeTypeString,
+  isCustomElementFilename
 } from './utils'
 import { genModelProps } from './defineModel'
 import { getObjectOrArrayExpressionKeys } from './analyzeScriptBindings'
@@ -272,7 +273,7 @@ function genRuntimePropFromType(
       }
     }
   }
-
+  const isCe = isCustomElementFilename(ctx.descriptor.filename)
   if (!ctx.options.isProd) {
     return `${key}: { ${concatStrings([
       `type: ${toRuntimeTypeString(type)}`,
@@ -284,6 +285,7 @@ function genRuntimePropFromType(
     type.some(
       el =>
         el === 'Boolean' ||
+        (isCe && el === 'Number') ||
         ((!hasStaticDefaults || defaultString) && el === 'Function')
     )
   ) {
